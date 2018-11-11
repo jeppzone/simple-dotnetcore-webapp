@@ -1,6 +1,6 @@
-variable "service_principal_client_id" {}
+variable "app_id" {}
 
-variable "service_principal_password" {}
+variable "password" {}
 
 resource "random_integer" "unique_number" {
   min     = 1
@@ -17,8 +17,7 @@ resource "azurerm_container_registry" "container_registry" {
   resource_group_name = "${azurerm_resource_group.kubernetes_cluster_group.name}"
   location            = "${azurerm_resource_group.kubernetes_cluster_group.location}"
   admin_enabled       = true
-  sku                 = "Classic"
-  storage_account_id  = "${azurerm_storage_account.storage_account.id}"
+  sku                 = "Standard"
 }
 
 resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
@@ -36,8 +35,8 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
   }
 
   service_principal {
-    client_id     =  "${var.service_principal_client_id}"
-    client_secret = "${var.service_principal_password}"
+    client_id     =  "${var.app_id}"
+    client_secret = "${var.password}"
   }
 
   tags {

@@ -18,3 +18,25 @@ Packages the application and its dependencies with Release configuration and out
 
 # Health Check
 Available on endpoint */healthz*
+
+
+# Create cluster
+
+az login
+
+terraform init
+
+terraform apply -var-file="service_principal.tfvars"
+
+az ad app show --id {application_id}
+
+terraform apply -var app_id={0} -var password={1}
+
+az aks browse --resource-group Kubernetes_Cluster --name klasaks898
+
+
+-----
+
+az aks install-cli
+
+az aks get-credentials --resource-group Kubernetes_Cluster --name klasaks898

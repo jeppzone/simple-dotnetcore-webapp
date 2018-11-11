@@ -1,4 +1,4 @@
-variable "service_principal_password" {}
+variable "password" {}
 
 resource "azurerm_azuread_application" "aks_application" {
   name                       = "example"
@@ -15,6 +15,6 @@ resource "azurerm_azuread_service_principal" "aks_service_principal" {
 
 resource "azurerm_azuread_service_principal_password" "aks_service_principal" {
   service_principal_id = "${azurerm_azuread_service_principal.aks_service_principal.id}"
-  value                = "${var.service_principal_password}"
+  value                = "${var.password}"
   end_date             = "2020-01-01T01:02:03Z"
 }
