@@ -491,3 +491,8 @@ ASALocalRun/
 
 
 # End of https://www.gitignore.io/api/macos,aspnetcore,visualstudio
+
+# Terraform
+.terraform/
+.terraform*
+terraform.tfstate*
