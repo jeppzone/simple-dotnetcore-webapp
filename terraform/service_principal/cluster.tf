@@ -1,7 +1,3 @@
-variable "app_id" {}
-
-variable "password" {}
-
 resource "random_integer" "unique_number" {
   min     = 1
   max     = 999
@@ -13,7 +9,7 @@ resource "azurerm_resource_group" "kubernetes_cluster_group" {
 }
 
 resource "azurerm_container_registry" "container_registry" {
-  name                = "klasacr${random_integer.unique_number.result}"
+  name                = "cygniacr${random_integer.unique_number.result}"
   resource_group_name = "${azurerm_resource_group.kubernetes_cluster_group.name}"
   location            = "${azurerm_resource_group.kubernetes_cluster_group.location}"
   admin_enabled       = true
@@ -21,10 +17,10 @@ resource "azurerm_container_registry" "container_registry" {
 }
 
 resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
-  name                = "klasaks${random_integer.unique_number.result}"
+  name                = "cygniaks${random_integer.unique_number.result}"
   location            = "${azurerm_resource_group.kubernetes_cluster_group.location}"
   resource_group_name = "${azurerm_resource_group.kubernetes_cluster_group.name}"
-  dns_prefix          = "klasaks${random_integer.unique_number.result}"
+  dns_prefix          = "cygniaks${random_integer.unique_number.result}"
 
   agent_pool_profile {
     name            = "default"
@@ -35,11 +31,7 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
   }
 
   service_principal {
-    client_id     =  "${var.app_id}"
-    client_secret = "${var.password}"
-  }
-
-  tags {
-    Environment = "Development"
+    client_id     =  "${azurerm_azuread_service_principal.aks_sp.application_id}"
+    client_secret = "${random_string.aks_sp_password.result}"
   }
 }
