@@ -37,3 +37,11 @@ az aks install-cli
 az aks get-credentials --resource-group {resource_group} --name {cluster_name}
 
 kubectl get nodes
+
+------
+
+docker build -t {registry_login_server}/webapp:v1 .
+
+docker login {registry_login_server} -u {registry_admin_username} -p {registry_admin_password}
+
+docker push

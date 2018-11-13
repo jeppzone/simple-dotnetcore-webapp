@@ -16,6 +16,12 @@ resource "azurerm_container_registry" "container_registry" {
   sku                 = "Standard"
 }
 
+resource "azurerm_role_assignment" "acr_reader" {
+  scope                = "${azurerm_container_registry.container_registry.id}"
+  role_definition_name = "Reader"
+  principal_id         = "${azurerm_azuread_service_principal.aks_sp.id}"
+}
+
 resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
   name                = "cygniaks${random_integer.unique_number.result}"
   location            = "${azurerm_resource_group.kubernetes_cluster_group.location}"
