@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: microsoft/dotnet:2.2-sdks
+      - image: microsoft/dotnet:2.2-sdk
     steps:
       - setup_remote_docker:
           docker_layer_caching: true
