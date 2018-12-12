@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  build-and-deploy:
     docker:
       - image: circleci/node:8.11.1-browsers
     steps:
@@ -9,13 +9,18 @@ jobs:
       - checkout
       - run:
           name: Build
-          command: cd WebAppForDocker && docker build .
+          command: cd WebAppForDocker && docker build -t $DOCKER_CI_REGISTRY_HOST/webapp:v1 .
       - run:
           name: Run Tests
           command: echo Tests running
+      - run:
+          name: Image deploy
+          command: |
+            docker login $DOCKER_CI_REGISTRY_HOST -u $DOCKER_CI_USER -p $DOCKER_CI_PASSWORD
+            docker push $DOCKER_CI_REGISTRY_HOST/webapp:v1
 
 workflows:
   version: 2
   build:
     jobs:
-      - build
+      - build-and-deploy
