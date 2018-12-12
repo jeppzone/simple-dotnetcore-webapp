@@ -1,0 +1,19 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: microsoft/dotnet:2.2-sdks
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: cd WebAppForDocker && dotnet restore
+      - run:
+          name: Build project
+          command: cd WebAppForDocker && dotnet build
+
+workflows:
+  version: 2
+    build:
+      jobs:
+      - build
