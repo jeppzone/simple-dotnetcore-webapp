@@ -2,17 +2,14 @@ version: 2
 jobs:
   build:
     docker:
-      - image: microsoft/dotnet:2.2-sdk
+      - image: circleci/node:8.11.1-browsers
     steps:
       - setup_remote_docker:
           docker_layer_caching: true
       - checkout
       - run:
-          name: Install dependencies
-          command: cd WebAppForDocker && dotnet restore
-      - run:
-          name: Build project
-          command: cd WebAppForDocker && dotnet build
+          name: Build
+          command: cd WebAppForDocker && docker build .
 
 workflows:
   version: 2
