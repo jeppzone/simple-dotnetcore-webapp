@@ -9,15 +9,18 @@ jobs:
       - checkout
       - run:
           name: Build
-          command: cd WebAppForDocker && docker build -t $DOCKER_CI_REGISTRY_HOST/webapp:v1 .
+          command: cd WebAppForDocker && docker build -t "$DOCKER_CI_REGISTRY_HOST/webapp:v1" .
       - run:
           name: Run Tests
           command: echo Tests running
       - run:
-          name: Image deploy
+          name: Docker login
           command: |
             docker login $DOCKER_CI_REGISTRY_HOST -u $DOCKER_CI_USER -p $DOCKER_CI_PASSWORD
-            docker push $DOCKER_CI_REGISTRY_HOST/webapp:v1
+      - run:
+          name: Image deploy
+          command: |
+            docker push "$DOCKER_CI_REGISTRY_HOST/webapp:v1"
 
 workflows:
   version: 2
