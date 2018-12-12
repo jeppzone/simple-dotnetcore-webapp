@@ -10,6 +10,9 @@ jobs:
       - run:
           name: Build
           command: cd WebAppForDocker && docker build .
+      - run:
+          name: Run Tests
+          command: echo Tests running
 
 workflows:
   version: 2
